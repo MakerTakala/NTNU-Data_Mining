@@ -4,8 +4,8 @@ import clustering
 
 
 def tasks(data):
-    # associate.associate(data)
-    clustering.kmeans_clustering(data)
+    associate.associate(data)
+    clustering.clustering(data)
 
 
 if __name__ == "__main__":

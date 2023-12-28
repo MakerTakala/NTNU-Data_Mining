@@ -10,7 +10,7 @@ class Course:
             people_data["中文課程名稱"].item().split("109起入學：")[1].split()[:-1]
         )  # 通識領域
         self.description = info_data["description"]  # 課程說明
-        self.method = info_data["methods"]  # 教學方法
+        self.methods = info_data["methods"]  # 教學方法
         self.evaluations = info_data["evaluations"]  # 評量方式
         self.quota_limit = meta_data["quota"]["limit"]  # 限修人數
         self.quota_additional = meta_data["quota"]["additional"]  # 加簽人數

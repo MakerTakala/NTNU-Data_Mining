@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-import json
 from apriori_python import apriori
 
 
@@ -12,7 +10,7 @@ def preprocess_data(courses):
             data.append(teacher)
         for domain in course.gu_domain:
             data.append(domain)
-        for method in course.method:
+        for method in course.methods:
             data.append(method[0])
         for evaluation in course.evaluations:
             data.append(evaluation[0])
@@ -40,7 +38,7 @@ def preprocess_data(courses):
 
 def associate(courses):
     datas = preprocess_data(courses)
-    association_rules = apriori(datas, minSup=0.30, minConf=0.98)
+    association_rules = apriori(datas, minSup=0.76, minConf=0.9)
     # print(association_rules)
     association_rules = association_rules[1]
 
@@ -60,3 +58,4 @@ def associate(courses):
                 print(rule)
         else:
             print(rule)
+    print()
