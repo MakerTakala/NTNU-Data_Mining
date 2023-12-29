@@ -15,11 +15,11 @@ def preprocess_data(courses):
         for evaluation in course.evaluations:
             data.append(evaluation[0])
         choose = course.people / course.quota_limit + course.quota_additional
-        if choose >= 0.75:
+        if choose >= 0.9:
             data.append("選課率高")
-        elif choose >= 0.5:
+        elif choose >= 0.7:
             data.append("選課率中")
-        elif choose >= 0.25:
+        elif choose >= 0.5:
             data.append("選課率低")
         else:
             data.append("開課失敗")

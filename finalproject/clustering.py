@@ -110,11 +110,10 @@ def kmeans_clustering(datas, ans, num_classes):
     kmeans.fit(datas)
 
     print("kmeans")
-    print(kmeans.labels_)
     entropy_score = score_entropy(kmeans.labels_, ans, num_classes, num_classes)
     purity_score = score_purity(kmeans.labels_, ans, num_classes, num_classes)
-    print(entropy_score)
-    print(purity_score)
+    print("entropy score: ", entropy_score)
+    print("purity score: ", purity_score)
     print()
     return kmeans.labels_
 
@@ -124,11 +123,10 @@ def agglomerative_clustering(datas, ans, num_classes):
     agglomerative.fit(datas)
 
     print("agglomerative")
-    print(agglomerative.labels_)
     entropy_score = score_entropy(agglomerative.labels_, ans, num_classes, num_classes)
     purity_score = score_purity(agglomerative.labels_, ans, num_classes, num_classes)
-    print(entropy_score)
-    print(purity_score)
+    print("entropy score: ", entropy_score)
+    print("purity score: ", purity_score)
     print()
 
 
@@ -136,18 +134,16 @@ def dbscan_clustering(datas, ans, real_classes):
     dbscan = DBSCAN(eps=7.0, min_samples=3)
     dbscan.fit(datas)
     print("dbscan")
-    print(dbscan.labels_)
     label_classes = max(dbscan.labels_) + 1
     entropy_score = score_entropy(dbscan.labels_, ans, real_classes, label_classes)
     purity_score = score_purity(dbscan.labels_, ans, real_classes, label_classes)
-    print(entropy_score)
-    print(purity_score)
+    print("entropy score: ", entropy_score)
+    print("purity score: ", purity_score)
     print()
 
 
 def clustering(courses):
     datas, ans = preprocess_data(courses)
-    print("ans:", ans, end="\n\n")
     kmean_result = kmeans_clustering(datas, ans, 5)
     agglomerative_clustering(datas, ans, 5)
     dbscan_clustering(datas, ans, 5)
