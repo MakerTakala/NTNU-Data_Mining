@@ -119,7 +119,7 @@ def kmeans_clustering(datas, ans, num_classes):
 
 
 def agglomerative_clustering(datas, ans, num_classes):
-    agglomerative = AgglomerativeClustering(n_clusters=num_classes, linkage="ward")
+    agglomerative = AgglomerativeClustering(c=num_classes, linkage="ward")
     agglomerative.fit(datas)
 
     print("agglomerative")
@@ -130,13 +130,20 @@ def agglomerative_clustering(datas, ans, num_classes):
     print()
 
 
-def dbscan_clustering(datas, ans, real_classes):
-    dbscan = DBSCAN(eps=7.0, min_samples=3)
+def dbscan_clustering(datas, ans, real_classes, eps, min_samples):
+    dbscan = DBSCAN(eps=eps, min_samples=min_samples)
     dbscan.fit(datas)
-    print("dbscan")
+
     label_classes = max(dbscan.labels_) + 1
+    noise_num = list(dbscan.labels_).count(-1) / len(dbscan.labels_)
     entropy_score = score_entropy(dbscan.labels_, ans, real_classes, label_classes)
     purity_score = score_purity(dbscan.labels_, ans, real_classes, label_classes)
+
+    if noise_num > 0.2:
+        return
+
+    print("dbscan")
+    print("noise num: ", noise_num)
     print("entropy score: ", entropy_score)
     print("purity score: ", purity_score)
     print()
@@ -146,7 +153,12 @@ def clustering(courses):
     datas, ans = preprocess_data(courses)
     kmean_result = kmeans_clustering(datas, ans, 5)
     agglomerative_clustering(datas, ans, 5)
-    dbscan_clustering(datas, ans, 5)
+    dbscan_clustering(datas, ans, 5, 7.0, 3)
+
+    # for i in range(5, 10):
+    # for j in range(2, 6):
+    #     print("eps: ", i, " min_samples: ", j)
+    #     dbscan_clustering(datas, ans, 5, i, j)
 
     # for i, course in enumerate(courses.values()):
     #     if course.gu_domain[0] not in ["人文藝術", "社會科學", "自然科學", "邏輯運算", "大學入門"]:

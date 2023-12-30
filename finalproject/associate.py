@@ -15,11 +15,11 @@ def preprocess_data(courses):
         for evaluation in course.evaluations:
             data.append(evaluation[0])
         choose = course.people / course.quota_limit + course.quota_additional
-        if choose >= 0.9:
+        if choose >= 0.75:
             data.append("選課率高")
-        elif choose >= 0.7:
-            data.append("選課率中")
         elif choose >= 0.5:
+            data.append("選課率中")
+        elif choose >= 0.25:
             data.append("選課率低")
         else:
             data.append("開課失敗")
@@ -38,24 +38,25 @@ def preprocess_data(courses):
 
 def associate(courses):
     datas = preprocess_data(courses)
-    association_rules = apriori(datas, minSup=0.76, minConf=0.9)
-    # print(association_rules)
-    association_rules = association_rules[1]
+
+    association_rules1 = apriori(datas, minSup=0.76, minConf=0.9)
+    association_rules1 = association_rules1[1]
+    print("association_rules:")
+    for rule in association_rules1:
+        print(rule)
+    print()
 
     doamins = ["人文藝術", "社會科學", "自然科學", "邏輯運算", "大學入門", "跨域專業探索課程", "學院共同課程", "專題探究"]
 
-    use_in_domain = False
+    association_rules2 = apriori(datas, minSup=0.3, minConf=0.9)
+    association_rules2 = association_rules2[1]
 
-    print("association_rules:")
-    for rule in association_rules:
-        if use_in_domain:
-            having = False
-            for domain in doamins:
-                if domain in rule[0] or domain in rule[1]:
-                    having = True
-                    break
-            if having:
-                print(rule)
-        else:
+    for rule in association_rules2:
+        having = False
+        for domain in doamins:
+            if domain in rule[0] or domain in rule[1]:
+                having = True
+                break
+        if having:
             print(rule)
     print()
